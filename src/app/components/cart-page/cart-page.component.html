@@ -1,0 +1,49 @@
+<div class="fixed inset-0 overflow-hidden">
+    <div class="absolute inset-0 overflow-hidden bg-gray-500 bg-opacity-75 transition-opacity">
+      <div class="fixed inset-y-0 right-0 flex max-w-full pl-10">
+        <div class="w-screen max-w-md bg-white shadow-xl">
+          <div class="flex flex-col h-full">
+            <div class="flex items-center justify-between px-6 py-4 bg-gray-100">
+              <h2 class="text-lg font-medium text-gray-900">Shopping Cart</h2>
+              <button (click)="onCloseSidebar()" class="text-gray-400 hover:text-gray-500">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div class="overflow-y-auto px-6 py-4">
+                <!-- Render shopping cart items -->
+                <div *ngFor="let item of cartItems" class="flex justify-between py-2">
+                  <div class="flex-shrink-0 h-20 w-20 overflow-hidden rounded-md border border-gray-200">
+                    <img [src]="item.imageUrl" alt="Product image" class="h-full w-full object-cover">
+                  </div>
+                  <div class="ml-4 flex flex-col justify-between">
+                    <h3 class="text-base font-medium text-gray-900">{{ item.product.name }}</h3>
+                    <p class="text-sm text-gray-500">Price: {{ item.product.mrp }}</p>
+                    <p class="text-sm text-gray-500">Qty: {{ item.quantity }}</p>
+                  </div>
+                  <button class="ml-4 text-sm font-medium text-indigo-600 hover:text-indigo-500" (click)="removeFromCart(item)">Remove</button>
+                </div>
+              </div>
+              
+
+            <div class="border-t border-gray-200 px-6 py-4">
+              <div class="flex justify-between">
+                <p class="text-base font-medium text-gray-900">Subtotal</p>
+                <p class="text-base font-medium text-gray-900">&#8377;{{ getSubtotal() }}</p>
+              </div>
+              <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
+              <div class="mt-6">
+                <button class="w-full py-3 text-base font-medium text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-700" (click) ="onCheckout()">Checkout</button>
+              </div>
+              <div class="mt-2 flex justify-center text-sm text-gray-500">
+                <p>or</p>
+                <button class="ml-1 font-medium text-indigo-600 hover:text-indigo-500" (click)="  onContinueShopping()" >Continue Shopping &rarr;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

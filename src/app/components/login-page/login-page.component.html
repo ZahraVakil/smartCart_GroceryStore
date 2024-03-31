@@ -1,0 +1,114 @@
+<div class="flex items-baseline justify-center my-5">
+ 
+    <div
+      class="flex flex-col items-center justify-center p-6 bg-slate-200 border border-gray-100"
+    >
+      <img
+        src="assets/images/logo.png"
+        alt="logo"
+        style="width: 100px; height: 100px"
+      />
+      <h2 class="font-bold text-3xl">Log In to Account</h2>
+      <h2 class="text-gray-500">Enter your Username and password to Log In</h2>
+      <form [formGroup]="userContentFormGroup">
+        <div class="w-full flex flex-col gap-5 mt-7">
+          <div class="form-group">
+            <input
+              formControlName="username"
+              type="text"
+              placeholder="Username"
+              class="p-2 border border-gray-300 rounded-md"
+            />
+            <div
+              *ngIf="userContentFormGroup.get('username')?.invalid && (userContentFormGroup.get('username')?.touched || isSubmitted)"
+            >
+              <span
+                class="text-xs text-red-500"
+                *ngIf="userContentFormGroup.get('username')?.hasError('required')"
+              >
+                Username is required field!
+              </span>
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <input
+              formControlName="password"
+              type="password"
+              placeholder="Password"
+              class="p-2 border border-gray-300 rounded-md"
+            />
+            <div
+              *ngIf="
+                userContentFormGroup.get('password')?.invalid &&
+                (userContentFormGroup.get('password')?.touched || isSubmitted)
+              "
+            >
+              <span
+                class="text-xs text-red-500"
+                *ngIf="userContentFormGroup.get('password')?.hasError('required')"
+              >
+                Password is required field!
+              </span>
+              <span
+                class="text-xs text-red-500"
+                *ngIf="
+                  userContentFormGroup.get('password')?.hasError('minlength')
+                "
+              >
+                min 6 characters are required!
+              </span>
+            </div>
+          </div>
+          <div *ngIf = "loginError[0]"   class="text-xs text-red-500">{{loginError[1]}}</div>
+          <Button
+            class="bg-custom-green rounded-2xl px-4 py-2 text-white font-semibold disabled = {(!username|| email || password)}"
+            (click)="onLoginClick()"
+            >Log In</Button
+          >
+          <p>
+            Don't have an account <br />
+            <a
+              [routerLink]="'/signup'"
+              class="text-blue-500"
+            >
+              Click here to Create new Account
+            </a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- <div class="container">
+      <h2>Login Form</h2>
+      <form action="#" method="post" [formGroup]="userContentFormGroup">
+          <div class="form-group">
+              <label for="emlEmail">Email:</label>
+              <input type="email" id="emlEmail" formControlName="email" placeholder="Enter your email" required>
+              <div *ngIf="userContentFormGroup.get('email')?.invalid && (userContentFormGroup.get('email')?.touched || isSubmitted)">
+                  <span *ngIf="userContentFormGroup.get('email')?.hasError('required')">
+                      its required field!
+                  </span>
+                  <span *ngIf="userContentFormGroup.get('email')?.hasError('email')">
+                      Please enter a valid email address.
+                  </span>
+              </div>
+          </div>
+          <div class="form-group">
+              <label for="password">Password:</label>
+              <input type="password" id="password" formControlName="password" placeholder="Enter your password" required>
+              <div *ngIf="userContentFormGroup.get('password')?.invalid && (userContentFormGroup.get('password')?.touched || isSubmitted)">
+                  <span *ngIf="userContentFormGroup.get('password')?.hasError('required')">
+                      its required field!
+                  </span>
+                  <span *ngIf="userContentFormGroup.get('password')?.hasError('minlength')">
+                      min 6 characters required!
+                  </span>
+              </div>
+          </div>
+          <button type="submit" class="btn">Login</button>
+          <p>Don't have an account? <a routerLink="/signup">SignUp</a></p> 
+      </form>
+  </div> -->
+  

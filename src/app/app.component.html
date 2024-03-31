@@ -1,0 +1,11 @@
+<app-header (clickCart)="toggleCart()"></app-header>
+<!-- <app-page-not-found></app-page-not-found> -->
+
+<router-outlet></router-outlet>
+<!-- <app-product-view-page></app-product-view-page> -->
+<!-- <app-cart-page></app-cart-page> -->
+<app-cart-page *ngIf="isCartOpen" (closeSidebar)="onCloseSidebar()"></app-cart-page>
+
+<!-- <app-order-summary-page></app-order-summary-page> -->
+<!-- <app-wishlist-page></app-wishlist-page> -->
+<app-footer></app-footer>

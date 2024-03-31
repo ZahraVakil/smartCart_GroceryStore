@@ -1,0 +1,106 @@
+<div class="flex items-baseline justify-center my-5">
+
+    <div
+    class="flex flex-col items-center justify-center p-6 bg-slate-200 border border-gray-100"
+    >
+    <img
+      src="assets/images/logo.png"
+      alt="logo"
+      style="width: 100px; height: 100px"
+    />
+    <h2 class="font-bold text-3xl">Create an Account</h2>
+    <h2 class="text-gray-500">
+      Enter your Email and password to Create an account
+    </h2>
+    <form [formGroup]="userContentFormGroup">
+      <div class="w-full flex flex-col gap-5 mt-7">
+        <div class="form-group w-100" >
+          <input
+            formControlName="username"
+            type="text"
+            placeholder="Username"
+            class="p-2 border border-gray-300 rounded-md"
+          />
+          <div
+            *ngIf="userContentFormGroup.get('username')?.invalid && (userContentFormGroup.get('username')?.touched || isSubmitted)"
+          >
+            <span
+              class="text-xs text-red-500"
+              *ngIf="userContentFormGroup.get('username')?.hasError('required')" >
+              Username is required field!
+            </span>
+          </div>
+        </div>
+    
+        <div class="form-group">
+         <input
+         formControlName="email"
+
+          type="text"
+          placeholder="name@example.com"
+          class="p-2 border border-gray-300 rounded-md"
+        />
+        <div *ngIf="userContentFormGroup.get('email')?.invalid && (userContentFormGroup.get('email')?.touched || isSubmitted)">
+            <span class="text-xs text-red-500" *ngIf="userContentFormGroup.get('email')?.hasError('required')">
+                Email is required field!
+            </span>
+            <span class="text-xs text-red-500" *ngIf="userContentFormGroup.get('email')?.hasError('email')">
+                Please enter a valid email address.
+            </span>
+        </div>
+    </div>
+    
+        <div class="form-group">
+          <input
+            formControlName="password"
+            type="password"
+            placeholder="Password"
+            class="p-2 border border-gray-300 rounded-md"
+          />
+          <div
+            *ngIf="
+              userContentFormGroup.get('password')?.invalid &&
+              (userContentFormGroup.get('password')?.touched || isSubmitted)
+            "
+          >
+            <span
+              class="text-xs text-red-500"
+              *ngIf="userContentFormGroup.get('password')?.hasError('required')"
+            >
+              Password is required field!
+            </span>
+            <span
+              class="text-xs text-red-500"
+              *ngIf="
+                userContentFormGroup.get('password')?.hasError('minlength')
+              "
+            >
+              min 6 characters are required!
+            </span>
+          </div>
+        </div>
+        <div *ngIf = "signupError[0]"   class="text-xs text-red-500">{{signupError[1]}}</div>
+
+        <Button
+          class="bg-custom-green rounded-2xl px-4 py-2 text-white font-semibold"
+          (click)="onSignupClick()">
+          Create an Account</Button
+        >
+        <p>
+          Already have an account <br />
+          <a
+          [routerLink]="'/login'"
+    
+            class="text-blue-500"
+          >
+            Click here to LogIn
+          </a>
+        </p>
+      </div>
+    </form>
+    <p-toast></p-toast>
+
+    </div>
+
+
+    </div>
