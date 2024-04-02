@@ -8,6 +8,8 @@ import { environment } from 'src/environments/environment.development';
 export class UserService {
 
   userDetailsURL: string = environment.baseURL + environment.user_details;
+  updateUser: string = environment.baseURL + environment.update_user;
+  updateAddress: string = environment.baseURL + environment.update_address
 
   constructor(private http: HttpClient) {}
    
@@ -25,5 +27,18 @@ export class UserService {
 
   //   return this.http.put<any>(updateUrl, data, { headers });
   // }
+
+
+  updateUserDetails(userId: any, newData: any) {
+    const url = `${this.updateUser}/${userId}`;
+    console.log(url);
+    return this.http.put<any>(url, newData);
+  }
+
+
+  addNewAddress(addressData: any) {
+    
+    return this.http.post(this.updateAddress, { data: addressData });
+  }
 }
 

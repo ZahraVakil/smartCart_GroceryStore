@@ -9,6 +9,8 @@ import { WishlistPageComponent } from './components/wishlist-page/wishlist-page.
 import { OrderSummaryPageComponent } from './components/order-summary-page/order-summary-page.component';
 import { UserProfilePageComponent } from './components/user-profile-page/user-profile-page.component';
 import { OrderHistoryPageComponent } from './components/order-history-page/order-history-page.component';
+import { AuthGuard } from './services/guard/auth.guard';
+import { OrderPlacedPageComponent } from './components/order-placed-page/order-placed-page.component';
 
 const routes: Routes = [
   {
@@ -35,6 +37,7 @@ const routes: Routes = [
   {
     path: 'wishlist',
     component: WishlistPageComponent,
+    canActivate: [AuthGuard] 
   },
  
   {
@@ -52,6 +55,16 @@ const routes: Routes = [
     component: OrderHistoryPageComponent,
   },
  
+  {
+    path: 'orderPlaced',
+    component: OrderPlacedPageComponent,
+  },
+ 
+
+  {
+    path: 'orderHistory',
+    component: OrderHistoryPageComponent,
+  },
  
   {
     path: '**',

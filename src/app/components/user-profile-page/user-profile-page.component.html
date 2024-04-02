@@ -1,74 +1,310 @@
 <div class="max-w-3xl mx-auto px-4 py-8">
-    <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">My Profile</h2>
-    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-      <div class="flex items-center justify-between mb-6">
-        <div class="w-full" *ngIf="!showUpdateForm">
-          <span class="text-2xl font-semibold">{{ userDetails.username }}</span>
-          <p class="text-gray-600 text-sm mt-1">Email: {{ userDetails.email }}</p>
-          <p class="text-gray-600 text-sm" *ngIf="userDetails.mobile_number">Phone: {{ userDetails.mobile_number }}</p>
+  <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">My Profile</h2>
+  <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div class="flex items-center justify-between mb-6">
+      <div class="w-full" *ngIf="!showUpdateForm">
+        <span class="text-2xl font-semibold">{{ userDetails.username }}</span>
+        <p class="text-gray-600 text-sm mt-1">Email: {{ userDetails.email }}</p>
+        <p class="text-gray-600 text-sm" *ngIf="userDetails.mobile_number">
+          Phone: {{ userDetails.mobile_number }}
+        </p>
+      </div>
+
+      <form
+        class="w-full"
+        *ngIf="showUpdateForm"
+        [formGroup]="userContentFormGroupUser"
+      >
+        <div class="mb-4">
+          <label
+            class="block text-gray-700 text-sm font-bold mb-1"
+            for="username"
+            >Name</label
+          >
+          <input
+            formControlName="username"
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Enter your name"
+            class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+
+          <div
+            *ngIf="
+              userContentFormGroupUser.get('username')?.invalid &&
+              (userContentFormGroupUser.get('username')?.touched || isSubmitted)
+            "
+          >
+            <span
+              class="text-xs text-red-500"
+              *ngIf="userContentFormGroupUser.get('username')?.hasError('required')"
+            >
+              Username is required field!
+            </span>
+
+            <span
+              class="text-xs text-red-500"
+              *ngIf="
+                userContentFormGroupUser.get('username')?.hasError('minlength')
+              "
+            >
+              min 5 characters are required!
+            </span>
+          </div>
         </div>
-  
-        <form class="w-full" *ngIf="showUpdateForm">
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-1" for="username">Name</label>
-            <input [(ngModel)]="newUserDetails.username" id="username" name="username" type="text" placeholder="Enter your name" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+
+        <div class="mb-4">
+          <label
+            class="block text-gray-700 text-sm font-bold mb-1"
+            for="mobile_number"
+            >Mobile Number</label
+          >
+          <input
+            formControlName="mobile"
+            id="mobile_number"
+            name="mobile_number"
+            type="text"
+            placeholder="Enter your mobile number"
+            class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+
+          <div
+            *ngIf="
+              userContentFormGroupUser.get('mobile')?.invalid &&
+              (userContentFormGroupUser.get('mobile')?.touched || isSubmitted)
+            "
+          >
+            <span
+              class="text-xs text-red-500"
+              *ngIf="userContentFormGroupUser.get('mobile')?.hasError('required')"
+            >
+              Mobile Number is required field!
+            </span>
+
+            <span
+              class="text-xs text-red-500"
+              *ngIf="userContentFormGroupUser.get('mobile')?.hasError('minlength')"
+            >
+              min 10 characters are required!
+            </span>
+
+            <span
+              class="text-xs text-red-500"
+              *ngIf="userContentFormGroupUser.get('mobile')?.hasError('pattern')"
+            >
+              Only numbers are allowed!
+            </span>
           </div>
-  
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-1" for="mobile_number">Mobile Number</label>
-            <input [(ngModel)]="newUserDetails.phone" id="mobile_number" name="mobile_number" type="number" placeholder="Enter your mobile number" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-          </div>
-  
-          <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Update</button>
-        </form>
-      </div>
-  
-      <div class="flex justify-end">
-        <button *ngIf="showUpdateForm" (click)="cancelUpdateProfileBtn()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Cancel</button>
-        <button *ngIf="!showUpdateForm" (click)="updateProfileBtn()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Edit</button>
-      </div>
+        </div>
+
+        <button
+          type="submit"
+          (click)="updateProfile()"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Update
+        </button>
+      </form>
     </div>
-  
+
+    <div class="flex justify-end">
+      <button
+        *ngIf="showUpdateForm"
+        (click)="cancelUpdateProfileBtn()"
+        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      >
+        Cancel
+      </button>
+      <button
+        *ngIf="!showUpdateForm"
+        (click)="updateProfileBtn()"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      >
+        Edit
+      </button>
+    </div>
+  </div>
+
+  <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
     <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <h3 class="text-2xl font-semibold mb-4">Addresses</h3>
-            <!-- Display User Addresses -->
-            <div *ngFor="let address of userAddresses" class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-1">Address</label>
-                <p><span class="font-semibold">Address Line 1:</span> {{ address.address_line_1 }}</p>
-                <p><span class="font-semibold">Address Line 2:</span> {{ address.address_line_2 }}</p>
-                <p><span class="font-semibold">Landmark:</span> {{ address.landmark }}</p>
-                <p><span class="font-semibold">City:</span> {{ address.city?.name}}</p>
-            </div>
-            <hr>
+      <h3 class="text-2xl font-semibold mb-4">Addresses</h3>
+      <!-- Display User Addresses -->
+      <div *ngFor="let address of userAddresses" class="mb-4">
+        <div class="flex justify-between items-center">
+            <label class="block text-gray-700 text-sm font-bold mb-1">Address</label>
+            <button (click)="removeAddress(address.id)" class="text-red-600 px-4 py-1 rounded-full border border-gray-500 hover:bg-red-500 hover:text-white">
+                <i class="fa-solid fa-trash"></i>
+            </button>
+        </div>
+       
+      
+        <p>
+          <span class="font-semibold">Address Line 1:</span>
+          {{ address.address_line_1 }}
+        </p>
+        <p>
+          <span class="font-semibold">Address Line 2:</span>
+          {{ address.address_line_2 }}
+        </p>
+        <p>
+          <span class="font-semibold">Landmark:</span> {{ address.landmark }}
+        </p>
+        <p><span class="font-semibold">City:</span> {{ address.city?.name }}</p>
+                <hr class="border-black">
+      </div>
+      <hr />
       <article class="mb-4" *ngIf="showAddressForm">
-        <form>
+        <form [formGroup]="userContentFormGroupAddress" (submit)="addressFormSubmit()">
           <div class="mb-4 mt-4">
-            <label class="block text-gray-700 text-sm font-bold mb-1" for="addressLine1">Address Line 1</label>
-            <input id="addressLine1" type="text" placeholder="Enter address line 1" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <div class="flex items-center">
+              <label
+                for="addressLine1"
+                class="text-gray-700 text-sm font-bold mr-1"
+                >Address Line 1</label
+              >
+              <h5 class="text-red-700 text-sm font-bold">*</h5>
+            </div>
+            <input
+              formControlName="addressLine1"
+              id="addressLine1"
+              type="text"
+              placeholder="Enter address line 1"
+              class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+
+            <div
+              *ngIf="
+                userContentFormGroupAddress.get('addressLine1')?.invalid &&
+                (userContentFormGroupAddress.get('addressLine1')?.touched ||
+                  isSubmitted)
+              "
+            >
+              <span
+                class="text-xs text-red-500"
+                *ngIf="
+                  userContentFormGroupAddress.get('addressLine1')?.hasError('required')
+                "
+              >
+                Address Line 1 is required field!
+              </span>
+              <span
+                class="text-xs text-red-500"
+                *ngIf="
+                  userContentFormGroupAddress
+                    .get('addressLine1')
+                    ?.hasError('minlength')
+                "
+              >
+                min 5 characters required!
+              </span>
+            </div>
           </div>
           <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-1" for="addressLine1">Address Line 2</label>
-            <input id="addressLine1" type="text" placeholder="Enter address line 2" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <label
+              class="block text-gray-700 text-sm font-bold mb-1"
+              for="addressLine1"
+              >Address Line 2</label
+            >
+            <input
+              formControlName="addressLine2"
+              id="addressLine1"
+              type="text"
+              placeholder="Enter address line 2"
+              class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
           </div>
           <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-1" for="addressLine1">Landmark</label>
-            <input id="addressLine1" type="text" placeholder="Enter Landmark" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <div class="flex items-center">
+              <label
+                for="addressLine1"
+                class="text-gray-700 text-sm font-bold mr-1"
+                >Landmark</label
+              >
+              <h5 class="text-red-700 text-sm font-bold">*</h5>
+            </div>
+
+            <input
+              formControlName="landmark"
+              id="landmark"
+              type="text"
+              placeholder="Enter Landmark"
+              class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+
+            <div
+              *ngIf="
+                userContentFormGroupAddress.get('landmark')?.invalid &&
+                (userContentFormGroupAddress.get('landmark')?.touched || isSubmitted)
+              "
+            >
+              <span
+                class="text-xs text-red-500"
+                *ngIf="
+                  userContentFormGroupAddress.get('landmark')?.hasError('required')
+                "
+              >
+                Landmark is required field!
+              </span>
+              <span
+                class="text-xs text-red-500"
+                *ngIf="
+                  userContentFormGroupAddress.get('landmark')?.hasError('minlength')
+                "
+              >
+                min 5 characters required!
+              </span>
+            </div>
           </div>
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-1" for="addressLine1">City</label>
-            <input id="addressLine1" type="text" placeholder="Enter City" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+          <div class="mb-4 flex justify-between">
+            <!-- State -->
+            <div class="w-1/2 mr-2">
+              <div class="flex items-center">
+                <label for="state" class="text-gray-700 text-sm font-bold mr-1">State</label>
+                <select formControlName="stateId" id="state" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" (change)="onStateChange()">
+                  <option value="" hidden>Select State</option>
+                  <option *ngFor="let state of states" [value]="state.id">{{ state.attributes.name }}</option>
+                </select>
+              </div>
+            </div>
+          
+            <!-- City -->
+            <div class="w-1/2 ml-2">
+              <div class="flex items-center">
+                <label for="city" class="text-gray-700 text-sm font-bold mr-1">City</label>
+                <select formControlName="cityId" id="city" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" [disabled]="userContentFormGroupAddress.get('stateId')?.value === null || userContentFormGroupAddress.get('stateId')?.value === undefined">
+                  <option value="" hidden>Select City</option>
+                  <option *ngFor="let city of cities" [value]="city.id">{{ city.attributes.name }}</option>
+                </select>
+              </div>
+            </div>
           </div>
-          <!-- Add other address fields here -->
-  
-          <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
+          
+          <button
+            type="submit"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Submit
+          </button>
         </form>
       </article>
-  
+
       <div class="flex justify-end">
-        <button *ngIf="showAddressForm" (click)="cancelAddressFormBtn()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Cancel</button>
-        <button *ngIf="!showAddressForm" (click)="showAddressFormBtn()" class="bg-blue-500 mt-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add New Address +</button>
+        <button
+          *ngIf="showAddressForm"
+          (click)="cancelAddressFormBtn()"
+          class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Cancel
+        </button>
+        <button
+          *ngIf="!showAddressForm"
+          (click)="showAddressFormBtn()"
+          class="bg-blue-500 mt-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Add New Address +
+        </button>
       </div>
     </div>
   </div>
-  
+</div>

@@ -23,6 +23,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { OrderHistoryPageComponent } from './components/order-history-page/order-history-page.component';
 import { InterceptorInterceptor } from './services/interceptors/interceptor.interceptor';
+import { OrderPlacedPageComponent } from './components/order-placed-page/order-placed-page.component';
 
 
 
@@ -43,6 +44,7 @@ import { InterceptorInterceptor } from './services/interceptors/interceptor.inte
     UserProfilePageComponent,
     OrderSummaryPageComponent,
     OrderHistoryPageComponent,
+    OrderPlacedPageComponent,
   ],
   imports: [
     BrowserModule,
